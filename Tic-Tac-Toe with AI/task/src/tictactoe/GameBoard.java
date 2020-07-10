@@ -4,12 +4,16 @@ public abstract class GameBoard {
     private static char[][] board;
     private static int xCount;
     private static int oCount;
+    private static final int ROW;
+    private static final int COL;
+
 
     static {
         board = new char[3][3];
-        initializeBoard();
         xCount = 0;
         oCount = 0;
+        ROW = 3;
+        COL = 3;
     }
 
     public static int getoCount() {
@@ -20,18 +24,18 @@ public abstract class GameBoard {
         return xCount;
     }
 
-    private static void initializeBoard() {
-        for (int row=0; row<3; row++){
-            for (int col=0; col<3; col++){
-                board[row][col] = '_';
+    public static void initializeBoard() {
+        for (int row=0; row<ROW; row++){
+            for (int col=0; col<COL; col++){
+                board[row][col] = ' ';
             }
         }
     }
 
     public static void printBoard() {
         System.out.println("---------");
-        for (int row=0; row<3; row++){
-            for (int col=0; col<3; col++){
+        for (int row=0; row<ROW; row++){
+            for (int col=0; col<COL; col++){
                 if(col == 0)
                     System.out.print("| ");
 
@@ -46,7 +50,7 @@ public abstract class GameBoard {
     }
 
     public static boolean addToBoard(char symbol,int row,int col) {
-        if(board[row][col] == '_'){
+        if(board[row][col] == ' '){
             if(symbol == 'X')
                 xCount++;
             else if (symbol == 'O')
@@ -54,6 +58,7 @@ public abstract class GameBoard {
 
             board[row][col] = symbol;
             System.out.println("Successfully added!");
+            GameBoard.printBoard();
             return true;
         }
         else {
@@ -62,40 +67,41 @@ public abstract class GameBoard {
         }
     }
 
-    public static void checkGameStatus() {
+    public static boolean checkGameEnd() {
         // Check Draw
-        if(xCount+oCount==9){
+        if(xCount+oCount==ROW*COL){
             System.out.println("Draw");
-            return;
+            return true;
         }
 
         // Check Row
-        for (int row=0; row<3; row ++){
-            if(board[row][0] == board[row][1] && board[row][1] == board[row][2] && board[row][0]!='_'){
+        for (int row=0; row<ROW; row ++){
+            if(board[row][0] == board[row][1] && board[row][1] == board[row][2] && board[row][0]!=' '){
                 System.out.println(board[row][0] + " wins");
-                return;
+                System.out.println("row win");
+                return true;
             }
         }
 
         // Check Column
-        for (int col=0; col<3; col ++){
-            if(board[0][col] == board[1][col] && board[1][col] == board[2][col] && board[0][col]!='_'){
+        for (int col=0; col<COL; col ++){
+            if(board[0][col] == board[1][col] && board[1][col] == board[2][col] && board[0][col]!=' '){
                 System.out.println(board[0][col] + " wins");
-                return;
+                System.out.println("col win");
+                return true;
             }
         }
 
         // Check Diagonal
 
-        if ((board[0][0]==board[1][1] && board[1][1]==board[2][2])
-                || (board[0][2]==board[1][1] && board[1][1]==board[2][0])
-                && board[1][1] != '_')
+        if (board[1][1] != ' ' && ((board[0][0]==board[1][1] && board[1][1]==board[2][2]) || (board[0][2]==board[1][1] && board[1][1]==board[2][0])))
         {
+            System.out.println("diag win");
             System.out.println(board[1][1] + " wins");
-            return;
+            return true;
         }
 
         // Game not end
-        System.out.println("Game not finished");
+        return false;
     }
 }
