@@ -57,7 +57,7 @@ public abstract class GameBoard {
                 oCount++;
 
             board[row][col] = symbol;
-            System.out.println("Successfully added!");
+//            System.out.println("Successfully added!");
             GameBoard.printBoard();
             return true;
         }
@@ -78,7 +78,6 @@ public abstract class GameBoard {
         for (int row=0; row<ROW; row ++){
             if(board[row][0] == board[row][1] && board[row][1] == board[row][2] && board[row][0]!=' '){
                 System.out.println(board[row][0] + " wins");
-                System.out.println("row win");
                 return true;
             }
         }
@@ -87,7 +86,6 @@ public abstract class GameBoard {
         for (int col=0; col<COL; col ++){
             if(board[0][col] == board[1][col] && board[1][col] == board[2][col] && board[0][col]!=' '){
                 System.out.println(board[0][col] + " wins");
-                System.out.println("col win");
                 return true;
             }
         }
@@ -96,7 +94,6 @@ public abstract class GameBoard {
 
         if (board[1][1] != ' ' && ((board[0][0]==board[1][1] && board[1][1]==board[2][2]) || (board[0][2]==board[1][1] && board[1][1]==board[2][0])))
         {
-            System.out.println("diag win");
             System.out.println(board[1][1] + " wins");
             return true;
         }
