@@ -16,7 +16,8 @@ public class TicTacToe {
         start,
         exit,
         user,
-        easy
+        easy,
+        medium
     }
 
     public static void startGame() {
@@ -29,6 +30,9 @@ public class TicTacToe {
                 if(commands[0].equals("exit"))
                     break;
                 else if(commands[0].equals("start")){
+                    // Play game if commands are valid
+                    GameBoard.initializeBoard();
+                    GameBoard.printBoard();
                     playGame(commands[1],commands[2]);
                 }
             }
@@ -63,14 +67,13 @@ public class TicTacToe {
 
     public static void playGame(String player1, String player2) {
 
-        Player playerX = player1.equals("easy")?new EasyAI('X'):
-                                                new HumanPlayer('X',scanner);
+        Player playerX = setPlayerType(player1,'X');
+        Player playerO = setPlayerType(player2,'O');
 
-        Player playerO = player2.equals("easy")?new EasyAI('O'):
-                                                new HumanPlayer('O',scanner);
+        // 'X' always goes first
         playerX.setPlayerTurn(true);
 
-        while (!GameBoard.checkGameEnd()) {
+        while (true) {
             if(playerX.isPlayerTurn()) {
                 if(playerX.playerMove()){
                     playerX.setPlayerTurn(false);
@@ -83,6 +86,28 @@ public class TicTacToe {
                     playerO.setPlayerTurn(false);
                 }
             }
+
+            if (GameBoard.checkGameEnd())
+                break;
         }
+    }
+
+    public static Player setPlayerType(String playerType,char Symbol) {
+
+        Player player = null;
+
+        switch(playerType){
+            case "easy":
+                player = new EasyAI(Symbol);
+                break;
+            case "medium":
+                player = new MediumAI(Symbol);
+                break;
+            case "user":
+                player = new HumanPlayer(Symbol,scanner);
+                break;
+        }
+
+        return player;
     }
 }

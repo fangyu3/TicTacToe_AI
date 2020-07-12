@@ -9,14 +9,14 @@ public class EasyAI extends Player{
 
     @Override
     public boolean playerMove() {
+
+        // Make random move
         Random random = new Random();
         System.out.println("Making move level \"easy\"");
 
-        int xCoord = random.nextInt(3)+1;
-        int yCoord = random.nextInt(3)+1;
+        int row = random.nextInt(3);
+        int col = random.nextInt(3);
 
-        Coordinate coord = new Coordinate(xCoord, yCoord);
-
-        return GameBoard.addToBoard(getSymbol(), coord.getRowIdx(), coord.getColIdx());
+        return GameBoard.addToBoard(getSymbol(), row, col);
     }
 }

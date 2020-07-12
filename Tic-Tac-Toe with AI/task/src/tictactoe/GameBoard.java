@@ -24,6 +24,18 @@ public abstract class GameBoard {
         return xCount;
     }
 
+    public static int getCOL() {
+        return COL;
+    }
+
+    public static int getROW() {
+        return ROW;
+    }
+
+    public static char[][] getBoard() {
+        return board;
+    }
+
     public static void initializeBoard() {
         for (int row=0; row<ROW; row++){
             for (int col=0; col<COL; col++){
