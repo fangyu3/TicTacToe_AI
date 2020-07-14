@@ -13,7 +13,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public boolean playerMove() {
-
         try {
             System.out.print("Enter the coordinates: ");
             int xCoord = scanner.nextInt();
@@ -24,12 +23,13 @@ public class HumanPlayer extends Player {
                 System.out.println("Coordinates should be from 1 to 3!");
                 return false;
             }
-            Coordinate coord = new Coordinate(xCoord, yCoord);
+            Coordinate coord = new Coordinate(xCoord, yCoord,true);
 
             return GameBoard.addToBoard(getSymbol(), coord.getRowIdx(), coord.getColIdx());
         }
         catch (java.util.InputMismatchException e){
             System.out.println("You should enter numbers!");
+            scanner.nextLine();
             return false;
         }
     }

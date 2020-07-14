@@ -17,7 +17,8 @@ public class TicTacToe {
         exit,
         user,
         easy,
-        medium
+        medium,
+        hard
     }
 
     public static void startGame() {
@@ -66,7 +67,6 @@ public class TicTacToe {
     }
 
     public static void playGame(String player1, String player2) {
-
         Player playerX = setPlayerType(player1,'X');
         Player playerO = setPlayerType(player2,'O');
 
@@ -87,24 +87,35 @@ public class TicTacToe {
                 }
             }
 
-            if (GameBoard.checkGameEnd())
+            GameBoard.printBoard();
+
+            if (GameBoard.checkGameEnd() != 'C') {
+                if(GameBoard.checkGameEnd() == 'T')
+                    System.out.println("Draw!");
+                else
+                    System.out.println(GameBoard.checkGameEnd()+" wins");
+
                 break;
+            }
         }
     }
 
-    public static Player setPlayerType(String playerType,char Symbol) {
+    public static Player setPlayerType(String playerType,char symbol) {
 
         Player player = null;
 
         switch(playerType){
             case "easy":
-                player = new EasyAI(Symbol);
+                player = new EasyAI(symbol);
                 break;
             case "medium":
-                player = new MediumAI(Symbol);
+                player = new MediumAI(symbol);
+                break;
+            case "hard":
+                player = new HardAI(symbol);
                 break;
             case "user":
-                player = new HumanPlayer(Symbol,scanner);
+                player = new HumanPlayer(symbol,scanner);
                 break;
         }
 

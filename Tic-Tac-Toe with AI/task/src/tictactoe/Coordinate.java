@@ -6,10 +6,16 @@ public class Coordinate {
     private int rowIdx;
     private int colIdx;
 
-    public Coordinate(int xCoord, int yCoord) {
-        X = xCoord;
-        Y = yCoord;
-        tranform2DArrIdx();
+    public Coordinate(int num1, int num2,boolean isCoordinate) {
+        if(isCoordinate) {
+            X = num1;
+            Y = num2;
+            tranform2DArrIdx();
+        }
+        else{
+            rowIdx = num1;
+            colIdx = num2;
+        }
     }
 
     private void tranform2DArrIdx() {

@@ -1,20 +1,14 @@
 package tictactoe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class GameBoard {
     private static char[][] board;
     private static int xCount;
     private static int oCount;
-    private static final int ROW;
-    private static final int COL;
-
-
-    static {
-        board = new char[3][3];
-        xCount = 0;
-        oCount = 0;
-        ROW = 3;
-        COL = 3;
-    }
+    private static final int ROW=3;
+    private static final int COL=3;
 
     public static int getoCount() {
         return oCount;
@@ -36,7 +30,23 @@ public abstract class GameBoard {
         return board;
     }
 
+    public static List<Coordinate> getEmptySpots() {
+        List<Coordinate> emptySpots = new ArrayList<>();
+        for (int row=0;row<ROW;row++){
+            for (int col=0;col<COL;col++){
+                if (board[row][col] == ' ') {
+                    Coordinate coordinate = new Coordinate(row,col,false);
+                    emptySpots.add(coordinate);
+                }
+            }
+        }
+        return emptySpots;
+    }
+
     public static void initializeBoard() {
+        board = new char[3][3];
+        xCount = 0;
+        oCount = 0;
         for (int row=0; row<ROW; row++){
             for (int col=0; col<COL; col++){
                 board[row][col] = ' ';
@@ -70,7 +80,6 @@ public abstract class GameBoard {
 
             board[row][col] = symbol;
 //            System.out.println("Successfully added!");
-            GameBoard.printBoard();
             return true;
         }
         else {
@@ -79,38 +88,42 @@ public abstract class GameBoard {
         }
     }
 
-    public static boolean checkGameEnd() {
-        // Check Draw
-        if(xCount+oCount==ROW*COL){
-            System.out.println("Draw");
-            return true;
-        }
-
+    public static char checkGameEnd() {
         // Check Row
         for (int row=0; row<ROW; row ++){
             if(board[row][0] == board[row][1] && board[row][1] == board[row][2] && board[row][0]!=' '){
-                System.out.println(board[row][0] + " wins");
-                return true;
+                return board[row][0];
             }
         }
 
         // Check Column
         for (int col=0; col<COL; col ++){
             if(board[0][col] == board[1][col] && board[1][col] == board[2][col] && board[0][col]!=' '){
-                System.out.println(board[0][col] + " wins");
-                return true;
+                return board[0][col];
             }
         }
 
         // Check Diagonal
-
         if (board[1][1] != ' ' && ((board[0][0]==board[1][1] && board[1][1]==board[2][2]) || (board[0][2]==board[1][1] && board[1][1]==board[2][0])))
         {
-            System.out.println(board[1][1] + " wins");
-            return true;
+            return board[1][1];
         }
 
-        // Game not end
-        return false;
+        // Check Draw
+        if(xCount+oCount==ROW*COL){
+            return 'T';
+        }
+
+        // Game not end. Continue
+        return 'C';
+    }
+
+    public static void clearCell(int row, int col){
+        if (board[row][col] == 'X')
+            xCount--;
+        else if (board[row][col] == 'O')
+            oCount--;
+
+        board[row][col] = ' ';
     }
 }
